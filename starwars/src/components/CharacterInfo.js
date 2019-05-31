@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CharacterInfo = ({ data }) => (
-  <div>
+  <div className="character">
     <h1>{data.name}</h1>
     <p>Born in {data.birth_year}</p>
     <h2>Starred in:</h2>
