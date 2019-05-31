@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CharacterInfo from './components/CharacterInfo';
 // import { getConsoleOutput } from '@jest/console';
 
 class App extends Component {
@@ -20,7 +21,27 @@ class App extends Component {
     fetch(URL)
       .then(res => res.json())
       .then(data => {
+        const characters = data.results;
+        for (const char of characters) {
+          for (let i = 0; i < char.films.length; i++) {
+            this.getData(char.films[i], film => {
+              char.films[i] = film.title;
+              this.setState({ starwarsChars: data.results });
+            });
+          }
+        }
         this.setState({ starwarsChars: data.results });
+      })
+      .catch(err => {
+        throw new Error(err);
+      });
+  };
+
+  getData = (URL, cb) => {
+    fetch(URL)
+      .then(res => res.json())
+      .then(data => {
+        cb(data);
       })
       .catch(err => {
         throw new Error(err);
@@ -29,10 +50,12 @@ class App extends Component {
 
   render() {
     const { starwarsChars } = this.state;
-    console.log(starwarsChars);
     return (
       <div className="App">
         <h1 className="Header">React Wars</h1>
+        {starwarsChars.map(char => (
+          <CharacterInfo key={char.name} data={char} />
+        ))}
       </div>
     );
   }
