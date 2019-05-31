@@ -17,3 +17,5 @@ Class components can have state unlike functional components (if you ignore hook
 State is managed by the component it belongs to. When state changes, the component rerenders.
 
 1.  Describe props.
+
+Props are managed by parent components. When props are changed, the component rerenders.

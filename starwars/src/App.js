@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
+// import { getConsoleOutput } from '@jest/console';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      starwarsChars: []
+      starwarsChars: [],
     };
   }
 
@@ -18,9 +18,7 @@ class App extends Component {
     // At a high level we are calling an API to fetch some starwars data from the open web.
     // We then take that data and resolve it our state.
     fetch(URL)
-      .then(res => {
-        return res.json();
-      })
+      .then(res => res.json())
       .then(data => {
         this.setState({ starwarsChars: data.results });
       })
@@ -30,6 +28,8 @@ class App extends Component {
   };
 
   render() {
+    const { starwarsChars } = this.state;
+    console.log(starwarsChars);
     return (
       <div className="App">
         <h1 className="Header">React Wars</h1>
