@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import CharacterInfo from './components/CharacterInfo';
 // import { getConsoleOutput } from '@jest/console';
 
+let page = 1;
+
 class App extends Component {
   constructor() {
     super();
@@ -26,11 +28,27 @@ class App extends Component {
           for (let i = 0; i < char.films.length; i++) {
             this.getData(char.films[i], film => {
               char.films[i] = film.title;
-              this.setState({ starwarsChars: data.results });
+              this.setState(prevState => ({
+                starwarsChars: prevState.starwarsChars,
+              }));
+            });
+          }
+          for (let i = 0; i < char.species.length; i++) {
+            this.getData(char.species[i], species => {
+              char.species[i] = species.name;
+              this.setState(prevState => ({
+                starwarsChars: prevState.starwarsChars,
+              }));
             });
           }
         }
-        this.setState({ starwarsChars: data.results });
+        this.setState(prevState => ({
+          starwarsChars: [...prevState.starwarsChars, ...data.results],
+        }));
+        if (data.next && page <= 5) {
+          this.getCharacters(data.next);
+          page++;
+        }
       })
       .catch(err => {
         throw new Error(err);
